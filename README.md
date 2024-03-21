@@ -1,3 +1,5 @@
+
+
 # Most Streamed Songs of 2023 Power BI Dashboard
 
 ### Dashboard Link
@@ -9,35 +11,35 @@ How can we develop a Power BI dashboard that showcases Spotify's most streamed s
 
 ### Steps followed 
 
-- Step 1 : Make a glassmorphism background in Microsoft Power point
-- Step 2 : Open Microsoft power BI and create date column".
+- Step 1: Make a glass morphism background in Microsoft PowerPoint
+- Step 2: Open Microsoft Power BI and create a date column".
          DATE([released_year, [released_month],         [released_day]])
-- Step 3 : it was observed that the streams column was not in whole number implicitly because of some missing values, later on it was converted by power query editor.
-- Step 4 : An external tool Bravo is used to make a calander table which can be used to make a calander table which can be used and directly connect with the date column form spotify dataset.
-- Step 5 : Slicers are added for Released date(date), Track names, Artist names and years which filters the data  
-- Step 6 : A new measure called max streams is made which is used to visualize the max streams of streams.
+- Step 3: it was observed that the streams column was not in whole number implicitly because of some missing values, later on, it was converted by the power query editor.
+- Step 4: An external tool Bravo is used to make a calendar table which can be used to make a calendar table which can be used and directly connect with the date column from the Spotify dataset.
+- Step 5: Slicers are added for Released date(date), Track names, Artist names, and years which filters the data  
+- Step 6: A new measure called max streams is made which is used to visualize the max streams of streams.
                 Max_playd_song = MAX('Spotify  Dataset'[streams])
-                this measure is visualized as a KPI card along with track name, artist name, artist count, streams and date to show the top streamed song.
-- Step 7 : Another KPI card is used to visualize quantifier charachterstics of the song like acoustness, danceblity, livliness, speechiness and valence. 
-- Step 8 : Some measures are made such as "top song streams" which calculates the sum of streams and streams equals to max of streams.
+                this measure is visualized as a KPI card along with track name, artist name, artist count, streams, and date to show the top streamed song.
+- Step 7: Another KPI card is used to visualize quantifier characteristics of the song like acousticness, danceability, liveliness, speechiness, and valence. 
+- Step 8: Some measures are made such as "top song streams" which calculates the sum of streams and streams equal to the max of streams.
 
         top_strong_streams = CALCULATE(SUM('Spotify Dataset'[streams]), 'Spotify Dataset'[streams] = MAX('Spotify Dataset'[streams])).
 
-another measure which is "Avg stream per year" which calculates average of streams removing all filters except year.
+another measure is "Avg stream per year" which calculates the average of streams removing all filters except the year.
 
         Average_stream_per_year = CALCULATE(AVERAGE('Spotify Dataset'[streams]), ALLEXCEPT('Spotify Dataset', 'Date'[Year])).
 
-top song vs avg val is calculating the percentage diffrence which is top song streams minus average stream per year divided by average stream per year.
+top song vs. average val is calculating the percentage difference which is top song streams minus average stream per year divided by average stream per year.
         
         top_song_vs_avg_val = DIVIDE([top_strong_streams] - [Average_stream_per_year], [Average_stream_per_year])
 
-this DAX measure is formated to find the up and down arrow depending upon it is posetive or negative.
+this DAX measure is formatted to find the up and down arrow depending on whether it is positive or negative.
 
         top_song_vs_avg = VAR x = [top_song_vs_avg_val] RETURN IF(x>0, FORMAT(x, "#.0%") & UNICHAR(9650), FORMAT(x, "#.0%") & UNICHAR(9669))
 
-- Step 9 : Two cards visual were added to the report one representing the average stream per year and another for top song vs average.
-- Step 10 : A image URL which was used to show the images of each track in the visual report was visualized by HTML content which is a visual need to be imported from power BI as a new visual. 
-- Step 11 : To show the images form the url, chat GPT is used to get the HTML code which uses the URL to show the mid section with rounded corners. the code was copied and pasted in the DAX code which calculates the top song cover URL where the max stream is the max of stream. and in this DAX code the HTML code is pasted 
+- Step 9: Two cards visual were added to the report one representing the average stream per year and another for top song vs average.
+- Step 10: An image URL which was used to show the images of each track in the visual report was visualized by HTML content which is a visual that needs to be imported from Power BI as a new visual. 
+- Step 11: To show the images from the URL, chat GPT is used to get the HTML code which uses the URL to show the mid-section with rounded corners. the code was copied and pasted into the DAX code which calculates the top song cover URL where the max stream is the max of stream. and in this DAX code the HTML code is pasted 
         
                 image_html = VAR x = CALCULATE(MAX('Spotify Dataset'[cover_url]), 'Spotify Dataset'[streams] = MAX('Spotify Dataset'[streams]))
         RETURN
@@ -72,7 +74,7 @@ this DAX measure is formated to find the up and down arrow depending upon it is 
         </html>
         "
 
-- Step 12 : In the report DENEB viual is used for visualizing the energy of the song which is imported from.
+- Step 12: In the report, DENEB visual is used for visualizing the energy of the song which is imported from.
 
         https://github.com/PBI-David/Deneb-Showcase
 
@@ -80,7 +82,7 @@ this DAX measure is formated to find the up and down arrow depending upon it is 
 
 <img width="127" alt="energy ring" src="https://github.com/nishant696/Most-Streamed-Songs-of-2023-Power-BI-Dashboard/assets/73593128/1568a72c-c578-468d-b3f4-ea3368d1393f">
 
-before going to be used in the visual this json file is modified according to the data report with the Following code
+before being used in the visual this JSON file is modified according to the data report with the following code
 
                 {
         "$schema": "https://vega.github.io/schema/vega/v5.json",
@@ -221,17 +223,17 @@ before going to be used in the visual this json file is modified according to th
         }
         ]
         }
-in this JSON code the color codes, data, width and height of the visual is changed 
+in this JSON code the color codes, data, width, and height of the visual are changed 
 
-- Step 13 : Another visual deneb is used which is the heat map which is used to visualize the track name, day of week and month.
+- Step 13: Another visual deneb is used which is the heat map which is used to visualize the track name, day of week and month.
 
-this visual is taken from the below github profile as json code
+this visual is taken from the below GitHub profile as JSON code
 
         https://github.com/PowerBI-tips/Deneb-Templates/blob/main/templates/heatmap%20with%20bars%20-%20red%20themed.json
 
 <img width="151" alt="heat map" src="https://github.com/nishant696/Most-Streamed-Songs-of-2023-Power-BI-Dashboard/assets/73593128/d8d2935f-ca0a-4851-87bc-c5138e05b137">
 
-the json code for this visual is 
+The JSON code for this visual is 
 
         {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -445,3 +447,44 @@ the json code for this visual is
         }
         ]
         }
+this modified code includes changes in days at line 112 which are case-sensitive
+
+removing legend at line 169 by null
+
+removed time title at line 133 
+
+The last change made is the size of the visual and the spacing between the horizontal and vertical bars
+
+- Step 14: The formatting of the report is done by customizing the theme by the Spotify player color palette which gave the hex code of the colors of the Spotify player.
+these hex codes are input into the theme 
+
+<img width="264" alt="theme color sc" src="https://github.com/nishant696/Most-Streamed-Songs-of-2023-Power-BI-Dashboard/assets/73593128/9627348a-440c-4e23-ac43-9afb7c8c3cea">
+
+the other changes in the theme include every other element being white such as text, visuals, colors, page and filter pane 
+
+the color codes are sourced from the following web URL 
+
+        https://www.color-hex.com/color-palette/53188  
+
+        Note: By changing the theme of the report the color of the heat map is also changed
+
+- Step 15: The date, track name, artist name, and year visual slicers are changed, artist name and track name visuals are changed to a dropdown list, and the year visual slicer is changed to tile.
+
+<img width="444" alt="d,t,a,y sc" src="https://github.com/nishant696/Most-Streamed-Songs-of-2023-Power-BI-Dashboard/assets/73593128/7e7c5d7d-8efc-44c1-a37d-ac4444ebe2ad">
+
+        
+ - Step 16: For the top song vs. average val card the conditional formatting is done ie.
+if the proportion is more than zero then the color must be green and if it is worse than zero then it is red.
+
+ 
+ - Step 17: For the images of tracks the track names are overlapped on the image visual with no background and altered to horizontally to fit the size of the visual. 
+
+- Step 18: The last step is to add a bookmark button or a clear all slicers button and turn off the button text to clear all slicers
+
+ # Report Snapshot (Power BI DESKTOP)
+
+ <img width="602" alt="dashbord sc" src="https://github.com/nishant696/Most-Streamed-Songs-of-2023-Power-BI-Dashboard/assets/73593128/a2b7dda9-91b7-4460-9e91-750b55bc5ff6">
+
+
+
+
